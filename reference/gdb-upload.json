@@ -1,0 +1,24 @@
+{
+  "baseURI": null,
+  "chunkSize": null,
+  "context": null,
+  "fileNames": [
+    "generated-datasets/uploads/5wmNFjpD.rdf"
+  ],
+  "message": "",
+  "name": "generated-datasets/uploads/5wmNFjpD.rdf",
+  "parserSettings": {
+    "failOnUnknownDataTypes": false,
+    "failOnUnknownLanguageTags": false,
+    "normalizeDataTypeValues": false,
+    "normalizeLanguageTags": false,
+    "preserveBNodeIds": true,
+    "stopOnError": true,
+    "verifyDataTypeValues": false,
+    "verifyLanguageTags": false,
+    "verifyRelativeURIs": false,
+    "verifyURISyntax": false
+  },
+  "retryTimes": 0,
+  "status": "PENDING"
+}

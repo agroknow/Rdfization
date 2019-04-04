@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:sosa="http://www.w3.org/ns/sosa/"
+         xmlns:qudt="http://qudt.org/1.1/schema/qudt#"
+         xmlns:time="http://www.w3.org/2006/time#"
+         xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+         xmlns:ssn="http://www.w3.org/ns/ssn/">
+
+  <rdf:Description rdf:about="http://example.org/data/Observation/235714">
+    <rdf:type rdf:resource="http://www.w3.org/ns/sosa/Observation"/>
+    <sosa:observedProperty rdf:resource="http://example.org/data/Appartment/134/electricConsumption"/>
+    <sosa:madeBySensor rdf:resource="http://example.org/data/sensor/926"/>
+    <sosa:hasResult>
+      <rdf:Description>
+        <rdf:type rdf:resource="http://qudt.org/1.1/schema/qudt#QuantityValue"/>
+        <qudt:numericValue rdf:datatype="http://www.w3.org/2001/XMLSchema#double">22.4</qudt:numericValue>
+        <qudt:unit rdf:resource="http://qudt.org/1.1/vocab/unit#Kilowatthour"/>
+      </rdf:Description>
+    </sosa:hasResult>
+
+    <sosa:phenomenonTime>
+      <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2006/time#Interval"/>
+        <time:hasBeginning>
+          <time:Instant>
+            <time:inXSDDateTimeStamp rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTimeStamp">2017-04-15T00:00:00+00:00</time:inXSDDateTimeStamp>
+          </time:Instant>
+        </time:hasBeginning>
+
+        <time:hasEnd>
+          <time:Instant>
+            <time:inXSDDateTimeStamp rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTimeStamp">2017-04-16T00:00:00+00:00</time:inXSDDateTimeStamp>
+          </time:Instant>
+        </time:hasEnd>
+
+      </rdf:Description>
+    </sosa:phenomenonTime>
+
+    <sosa:resultTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTimeStamp">2017-04-16T00:00:12+00:00</sosa:resultTime>
+  </rdf:Description>
+
+  <sosa:Sensor rdf:about="http://example.org/data/sensor/926">
+    <sosa:observes rdf:resource="http://example.org/data/Appartment/134/electricConsumption"/>
+    <sosa:madeObservation rdf:resource="http://example.org/data/Observation/235714"/>
+    <sosa:madeObservation rdf:resource="http://example.org/data/Observation/235715"/>
+    <sosa:madeObservation rdf:resource="http://example.org/data/Observation/235716"/>
+    <geo:lat rdf:datatype="http://www.w3.org/2001/XMLSchema#double">55.701</geo:lat>
+    <geo:long rdf:datatype="http://www.w3.org/2001/XMLSchema#double">12.552</geo:long>
+  </sosa:Sensor>
+
+  <sosa:ObservableProperty rdf:about="http://example.org/data/Appartment/134/electricConsumption">
+    <sosa:isObservedBy rdf:resource="http://example.org/data/sensor/926"/>
+  </sosa:ObservableProperty>
+
+  <!-- for later usage -->
+
+  <sosa:FeatureOfInterest rdf:about="http://example.org/data/window">
+    <ssn:hasProperty rdf:resource="http://example.org/data/window/104#state"/>
+  </sosa:FeatureOfInterest>
+
+  <sosa:ActuatableProperty rdf:about="http://example.org/data/window/104#state">
+    <sosa:isActedOnBy rdf:resource="http://example.org/data/actuation/188"/>
+  </sosa:ActuatableProperty>
+
+  <sosa:Actuator rdf:about="http://example.org/data/windowCloser/987">
+    <sosa:madeActuation rdf:resource="http://example.org/data/actuation/188"/>
+    <ssn:forProperty rdf:resource="http://example.org/data/window/104#state"/>
+  </sosa:Actuator>
+
+  <sosa:Actuation rdf:about="http://example.org/data/actuation/188">
+    <sosa:actsOnProperty rdf:resource="http://example.org/data/window/104#state"/>
+    <sosa:actuationMadeBy rdf:resource="http://example.org/data/windowCloser/987"/>
+    <sosa:hasSimpleResult rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</sosa:hasSimpleResult>
+    <sosa:resultTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTimeStamp">2017-04-18T17:24:00+02:00</sosa:resultTime>
+  </sosa:Actuation>
+
+</rdf:RDF>

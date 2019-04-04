@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://dev.bigdatagrapes.eu#"
+     xml:base="http://dev.bigdatagrapes.eu"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:bdg="http://dev.bigdatagrapes.eu#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:foaf="http://xmlns.com/foaf/0.1/"
+     xmlns:qudt="http://qudt.org/schema/qudt#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:vaem="http://www.linkedmodel.org/schema/vaem#"
+     xmlns:voag="http://voag.linkedmodel.org/schema/voag#"
+     xmlns:dtype="http://www.linkedmodel.org/schema/dtype#"
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#">
+    <owl:Ontology rdf:about="http://dev.bigdatagrapes.eu">
+        <owl:imports rdf:resource="http://qudt.org/1.1/vocab/unit"/>
+        <owl:imports rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#"/>
+        <owl:imports rdf:resource="http://www.w3.org/2004/02/skos/core"/>
+        <owl:imports rdf:resource="http://www.w3.org/2008/05/skos-xl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#unit -->
+
+    <owl:AnnotationProperty rdf:about="http://dev.bigdatagrapes.eu#unit"/>
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#value -->
+
+    <owl:AnnotationProperty rdf:about="http://dev.bigdatagrapes.eu#value"/>
+    
+
+
+    <!-- http://www.w3.org/2004/02/skos/core#notation -->
+
+    <owl:AnnotationProperty rdf:about="http://www.w3.org/2004/02/skos/core#notation"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#hasMeasurement -->
+
+    <owl:ObjectProperty rdf:about="http://dev.bigdatagrapes.eu#hasMeasurement">
+        <rdfs:domain rdf:resource="http://dev.bigdatagrapes.eu#ChemicalExperiment"/>
+        <rdfs:domain rdf:resource="http://dev.bigdatagrapes.eu#SensorReading"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#ChemicalExperiment -->
+
+    <owl:Class rdf:about="http://dev.bigdatagrapes.eu#ChemicalExperiment">
+        <rdfs:subClassOf rdf:resource="http://dev.bigdatagrapes.eu#Resource"/>
+    </owl:Class>
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#Resource -->
+
+    <owl:Class rdf:about="http://dev.bigdatagrapes.eu#Resource">
+        <rdfs:comment>The base entity of BDG ontology</rdfs:comment>
+        <rdfs:label>BigDataGrapes Resource</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#SensorReading -->
+
+    <owl:Class rdf:about="http://dev.bigdatagrapes.eu#SensorReading">
+        <rdfs:subClassOf rdf:resource="http://dev.bigdatagrapes.eu#Resource"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#SampleSensorReading -->
+
+    <owl:NamedIndividual rdf:about="http://dev.bigdatagrapes.eu#SampleSensorReading">
+        <rdf:type rdf:resource="http://dev.bigdatagrapes.eu#SensorReading"/>
+        <hasMeasurement rdf:resource="http://dev.bigdatagrapes.eu#SampleTemperatureMeasurement"/>
+        <wgs84_pos:location rdf:resource="http://dev.bigdatagrapes.eu#SampleSpatial"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#SampleSpatial -->
+
+    <owl:NamedIndividual rdf:about="http://dev.bigdatagrapes.eu#SampleSpatial">
+        <rdf:type rdf:resource="http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing"/>
+        <wgs84_pos:lat rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">23.001</wgs84_pos:lat>
+        <wgs84_pos:long rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">32.405</wgs84_pos:long>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://dev.bigdatagrapes.eu#SampleTemperatureMeasurement -->
+
+    <owl:NamedIndividual rdf:about="http://dev.bigdatagrapes.eu#SampleTemperatureMeasurement">
+        <rdf:type rdf:resource="http://qudt.org/schema/qudt#TemperatureUnit"/>
+        <qudt:unit rdf:resource="http://qudt.org/vocab/unit#DegreeCelsius"/>
+        <skos:notation rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">23.7</skos:notation>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

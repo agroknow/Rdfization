@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://qudt.org/1.1/vocab/quantity" uri="http://qudt.org/vocab/quantity"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/ssn/" uri="https://www.w3.org/ns/ssn/"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/ns/sosa/" uri="https://www.w3.org/ns/sosa/"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/2008/05/skos-xl" uri="http://www.w3.org/TR/skos-reference/skos-xl.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/2004/02/skos/core" uri="http://www.w3.org/TR/skos-reference/skos.rdf"/>
+    <uri id="Imports Wizard Entry" name="http://www.w3.org/2008/05/skos" uri="https://raw.githubusercontent.com/usc-isi-i2/karma-step-by-step/master/preloaded-ontologies/skos.owl"/>
+    <uri id="Imports Wizard Entry" name="http://purl.obolibrary.org/obo/uo/releases/2018-03-24/uo.owl" uri="http://purl.obolibrary.org/obo/uo.owl"/>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1552155171415" name="duplicate:http://dev.bigdatagrapes.eu" uri="bdg-sosa-ssn.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1552155171415" name="duplicate:http://dev.bigdatagrapes.eu" uri="bdg-v3.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1552155171415" name="duplicate:http://dev.bigdatagrapes.eu" uri="bdg-ontology.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1552155171415" name="http://qudt.org/1.1/schema/qudt" uri="bdg-v2.0.owl"/>
+    </group>
+</catalog>
