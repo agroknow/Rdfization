@@ -6,32 +6,33 @@
 image: maven:3.3.9
 
 pipelines:
-  master:
-    - step:
-        name: Maven Package
-        caches:
-          - maven
-        script: # Modify the commands below to build your repository.
-          - mvn -B verify # -B batch mode makes Maven less verbose
-          - mvn package
-        artifacts:
-          - target/rdfization-1.0.war
-    - step:
-        name: Deploy to production
-        deployment: production   # can be test, staging or production.
-        # trigger: manual  # Uncomment to make this a manual deployment.
-        script:
-          - pipe: atlassian/sftp-deploy:0.3.1
-            variables:
-              USER: 'root'
-              SERVER: '148.251.22.254'
-              REMOTE_PATH: '/opt/tomcat/webapps/'
-              LOCAL_PATH: 'target/rdfization-1.0.war'
-    - step:
-        name: Slack Notification
-        script:
-           - pipe: atlassian/slack-notify:0.2.4
-             variables:
+  branches:
+    master:
+      - step:
+          name: Maven Package
+          caches:
+            - maven
+          script: # Modify the commands below to build your repository.
+            - mvn -B verify # -B batch mode makes Maven less verbose
+            - mvn package
+          artifacts:
+            - target/rdfization-1.0.war
+      - step:
+          name: Deploy to production
+          deployment: production   # can be test, staging or production.
+          # trigger: manual  # Uncomment to make this a manual deployment.
+          script:
+            - pipe: atlassian/sftp-deploy:0.3.1
+              variables:
+                USER: 'root'
+                SERVER: '148.251.22.254'
+                REMOTE_PATH: '/opt/tomcat/webapps/'
+                LOCAL_PATH: 'target/rdfization-1.0.war'
+      - step:
+          name: Slack Notification
+          script:
+            - pipe: atlassian/slack-notify:0.2.4
+              variables:
                 WEBHOOK_URL: 'https://hooks.slack.com/services/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'
                 MESSAGE: 'Rdfization was built and deployed to production'
 
