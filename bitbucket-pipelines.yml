@@ -22,7 +22,6 @@ pipelines:
             variables:
               SSH_USER: 'root'
               SERVER: '148.251.22.254'
-              SSH_KEY: 'test_password'
               MODE: 'script'
               COMMAND: 'myscript.sh'
 
