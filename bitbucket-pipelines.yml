@@ -13,3 +13,17 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
           - mvn package
+    - step:
+        name: Deploy to production
+        deployment: production   # can be test, staging or production.
+        # trigger: manual  # Uncomment to make this a manual deployment.
+        script:
+          - pipe: atlassian/ssh-run:0.1.1
+            variables:
+              SSH_USER: 'root'
+              SERVER: '148.251.22.254'
+              SSH_KEY: 'test_password'
+              MODE: 'script'
+              COMMAND: 'myscript.sh'
+
+
