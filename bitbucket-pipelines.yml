@@ -13,6 +13,8 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - mvn -B verify # -B batch mode makes Maven less verbose
           - mvn package
+        artifacts:
+          - target/rdfization-1.0.war
     - step:
         name: Deploy to production
         deployment: production   # can be test, staging or production.
