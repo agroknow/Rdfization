@@ -28,7 +28,7 @@ pipelines:
               REMOTE_PATH: '/opt/tomcat/webapps/'
               LOCAL_PATH: 'target/rdfization-1.0.war'
     - step:
-        name: Notify
+        name: Slack Notification
         script:
            - pipe: atlassian/slack-notify:0.2.4
              variables:
