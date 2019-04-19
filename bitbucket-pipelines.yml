@@ -18,11 +18,11 @@ pipelines:
         deployment: production   # can be test, staging or production.
         # trigger: manual  # Uncomment to make this a manual deployment.
         script:
-          - pipe: atlassian/ssh-run:0.1.1
+          - pipe: atlassian/sftp-deploy:0.3.1
             variables:
-              SSH_USER: 'root'
+              USER: 'root'
               SERVER: '148.251.22.254'
-              MODE: 'script'
-              COMMAND: 'myscript.sh'
+              REMOTE_PATH: '/opt/tomcat/webapps/'
+              LOCAL_PATH: 'target/rdfization-1.0.war'
 
 
