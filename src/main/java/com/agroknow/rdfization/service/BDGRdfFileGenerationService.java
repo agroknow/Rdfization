@@ -1,5 +1,6 @@
 package com.agroknow.rdfization.service;
 
+import com.agroknow.rdfization.model.apigea.ApigeaData;
 import com.agroknow.rdfization.model.bdg.BDGObservableProperty;
 import com.agroknow.rdfization.model.bdg.BDGObservation;
 import com.agroknow.rdfization.model.bdg.BDGObservationResult;
@@ -11,11 +12,13 @@ import com.agroknow.rdfization.model.bdg.qudt.Unit;
 import com.agroknow.rdfization.model.request.bdg.BDGConversionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.cyberborean.rdfbeans.RDFBeanManager;
+import org.cyberborean.rdfbeans.exceptions.RDFBeanException;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
+import java.util.List;
 
 @Service
 public class BDGRdfFileGenerationService {
@@ -24,8 +27,6 @@ public class BDGRdfFileGenerationService {
     private String storageDir;
 
     public String generateRdf(BDGConversionRequest request) throws Exception {
-
-
         org.eclipse.rdf4j.repository.Repository repo =
                 new org.eclipse.rdf4j.repository.sail.SailRepository(new org.eclipse.rdf4j.sail.memory.MemoryStore());
         repo.initialize();
@@ -60,10 +61,6 @@ public class BDGRdfFileGenerationService {
                     result.setUnit(unit);
                     observation.setResult(result);
                     observation.setObservableProperty(property);
-//                    if (!sensor.getProperties().contains(property)) {
-//                        sensor.getProperties().add(property);
-//                    }
-//                    sensor.getObservations().add(observation);
                     try {
                         manager.add(result);
                         manager.add(observation);
@@ -78,6 +75,29 @@ public class BDGRdfFileGenerationService {
         con.close();
         repo.shutDown();
         return filePath;
+    }
 
+    public String generateApigeaRdf(List<ApigeaData> data) throws Exception {
+
+        org.eclipse.rdf4j.repository.Repository repo =
+                new org.eclipse.rdf4j.repository.sail.SailRepository(new org.eclipse.rdf4j.sail.memory.MemoryStore());
+        repo.initialize();
+        RepositoryConnection con = repo.getConnection();
+        RDFBeanManager manager = new RDFBeanManager(con);
+
+        String filePath = storageDir + String.format("%s_%s.%s", RandomStringUtils.randomAlphanumeric(8), System.currentTimeMillis(), "rdf");
+
+        data.forEach(d -> {
+            try {
+                manager.add(d);
+            } catch (RDFBeanException e) {
+                e.printStackTrace();
+            }
+        });
+        manager.getRepositoryConnection().export(
+                org.eclipse.rdf4j.rio.Rio.createWriter(org.eclipse.rdf4j.rio.RDFFormat.RDFXML, new FileOutputStream(filePath)));
+        con.close();
+        repo.shutDown();
+        return filePath;
     }
 }
