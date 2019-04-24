@@ -111,12 +111,14 @@ public class ConversionController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/model2rdf", produces = {"application/rdf+xml"},
+    @RequestMapping(method = RequestMethod.POST, path = "/symbeeosis/model2rdf", produces = {"application/rdf+xml"},
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    byte[] model2Rdf(@RequestBody List<ApigeaData> data, @RequestParam("model") String model) throws Exception {
+    byte[] symbeeosis2Rdf(@RequestBody List<ApigeaData> data) throws Exception {
 
         String jsonString = new ObjectMapper().writeValueAsString(data);
+
+        data.forEach(ApigeaData::generate);
 
         RdfizationRequest request = repository.findByRequest(jsonString).orElse(new RdfizationRequest());
 
@@ -135,7 +137,7 @@ public class ConversionController {
             service.upload(request.getRdfFile());
             request.setSentToStore(Boolean.TRUE);
         } catch (Exception ignored) {
-
+            ignored.printStackTrace();
         }
 
         repository.save(request);
