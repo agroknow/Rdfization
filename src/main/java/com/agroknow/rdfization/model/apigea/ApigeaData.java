@@ -1,5 +1,9 @@
 package com.agroknow.rdfization.model.apigea;
 
+import com.agroknow.rdfization.model.base.Dataset;
+import com.agroknow.rdfization.model.base.ExtractionMethod;
+import com.agroknow.rdfization.model.base.GrapeVariety;
+import com.agroknow.rdfization.model.base.MicrobialCount;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.cyberborean.rdfbeans.annotations.RDF;
@@ -49,6 +53,8 @@ public class ApigeaData {
     @JsonProperty(value = "Variety")
     private String grapeVariety;
 
+    private GrapeVariety variety;
+
     @JsonProperty(value = "Sample collection day")
     private Date date;
 
@@ -76,6 +82,14 @@ public class ApigeaData {
     @JsonProperty(value = "Total flavonoid content, TFC (μg/mL quercetin")
     private Double tfcQuercetin;
 
+    private Dataset bdgDataset;
+
+    private ExtractionMethod bdgExtractionMethod;
+
+    private MicrobialCount bdgTotalMicrobialCount;
+
+    private MicrobialCount bdgYeastsAndMoulds;
+
     public ApigeaData() {
     }
 
@@ -95,6 +109,12 @@ public class ApigeaData {
         this.antioxidantActivityABTSTrolox = antioxidantActivityABTSTrolox;
         this.tpcGallicAcid = tpcGallicAcid;
         this.tfcQuercetin = tfcQuercetin;
+
+        this.variety = new GrapeVariety(grapeVariety);
+        this.bdgDataset = new Dataset(dataset);
+        this.bdgExtractionMethod = new ExtractionMethod(extractionMethod);
+        this.bdgTotalMicrobialCount = new MicrobialCount(totalMicrobialCount);
+        this.bdgYeastsAndMoulds = new MicrobialCount(yeastsAndMoulds);
     }
 
     @RDFSubject(prefix = "http://dev.bigdatagrapes.eu/data/cosmetics/")
@@ -106,7 +126,6 @@ public class ApigeaData {
         this.id = id;
     }
 
-    @RDF("qb:dataSet")
     public String getDataset() {
         return dataset;
     }
@@ -115,7 +134,6 @@ public class ApigeaData {
         this.dataset = dataset;
     }
 
-    @RDF("bdg:extractionMethod")
     public String getExtractionMethod() {
         return extractionMethod;
     }
@@ -124,7 +142,6 @@ public class ApigeaData {
         this.extractionMethod = extractionMethod;
     }
 
-    @RDF("bdg:grapeVariety")
     public String getGrapeVariety() {
         return grapeVariety;
     }
@@ -160,7 +177,6 @@ public class ApigeaData {
         this.refractiveIndex = refractiveIndex;
     }
 
-    @RDF("bdg:totalMicrobialCount")
     public String getTotalMicrobialCount() {
         return totalMicrobialCount;
     }
@@ -169,7 +185,6 @@ public class ApigeaData {
         this.totalMicrobialCount = totalMicrobialCount;
     }
 
-    @RDF("bdg:yeastsAndMoulds")
     public String getYeastsAndMoulds() {
         return yeastsAndMoulds;
     }
@@ -212,5 +227,59 @@ public class ApigeaData {
 
     public void setTfcQuercetin(Double tfcQuercetin) {
         this.tfcQuercetin = tfcQuercetin;
+    }
+
+    @RDF("bdg:grapeVariety")
+    public GrapeVariety getVariety() {
+        return variety;
+    }
+
+    public void setVariety(GrapeVariety variety) {
+        this.variety = variety;
+    }
+
+    @RDF("qb:dataSet")
+    public Dataset getBdgDataset() {
+        return bdgDataset;
+    }
+
+    public void setBdgDataset(Dataset bdgDataset) {
+        this.bdgDataset = bdgDataset;
+    }
+
+    @RDF("bdg:extractionMethod")
+    public ExtractionMethod getBdgExtractionMethod() {
+        return bdgExtractionMethod;
+    }
+
+    public void setBdgExtractionMethod(ExtractionMethod bdgExtractionMethod) {
+        this.bdgExtractionMethod = bdgExtractionMethod;
+    }
+
+    @RDF("bdg:totalMicrobialCount")
+    public MicrobialCount getBdgTotalMicrobialCount() {
+        return bdgTotalMicrobialCount;
+    }
+
+    public void setBdgTotalMicrobialCount(MicrobialCount bdgTotalMicrobialCount) {
+        this.bdgTotalMicrobialCount = bdgTotalMicrobialCount;
+    }
+
+    @RDF("bdg:yeastsAndMoulds")
+    public MicrobialCount getBdgYeastsAndMoulds() {
+        return bdgYeastsAndMoulds;
+    }
+
+    public void setBdgYeastsAndMoulds(MicrobialCount bdgYeastsAndMoulds) {
+        this.bdgYeastsAndMoulds = bdgYeastsAndMoulds;
+    }
+
+    public void generate() {
+        dataset = "cosmetics";
+        this.variety = new GrapeVariety(grapeVariety);
+        this.bdgDataset = new Dataset(dataset);
+        this.bdgExtractionMethod = new ExtractionMethod(extractionMethod);
+        this.bdgTotalMicrobialCount = new MicrobialCount(totalMicrobialCount);
+        this.bdgYeastsAndMoulds = new MicrobialCount(yeastsAndMoulds);
     }
 }

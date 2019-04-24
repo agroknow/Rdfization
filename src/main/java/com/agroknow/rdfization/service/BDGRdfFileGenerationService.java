@@ -14,6 +14,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.cyberborean.rdfbeans.RDFBeanManager;
 import org.cyberborean.rdfbeans.exceptions.RDFBeanException;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -95,7 +96,7 @@ public class BDGRdfFileGenerationService {
             }
         });
         manager.getRepositoryConnection().export(
-                org.eclipse.rdf4j.rio.Rio.createWriter(org.eclipse.rdf4j.rio.RDFFormat.RDFXML, new FileOutputStream(filePath)));
+                org.eclipse.rdf4j.rio.Rio.createWriter(RDFFormat.RDFXML, new FileOutputStream(filePath)));
         con.close();
         repo.shutDown();
         return filePath;
