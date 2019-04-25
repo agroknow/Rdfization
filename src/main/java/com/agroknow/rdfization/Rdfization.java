@@ -28,8 +28,8 @@ public class Rdfization extends SpringBootServletInitializer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Agroknow Rdfizarion Service")
-                .description("Rdfizarion Service")
+                .title("Agroknow Rdfization Service")
+                .description("Rdfization Service")
                 .termsOfServiceUrl("")
                 .license("")
                 .licenseUrl("")
