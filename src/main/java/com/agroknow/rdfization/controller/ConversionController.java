@@ -147,40 +147,4 @@ public class ConversionController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/model2rdf", produces = {"application/rdf+xml"},
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    byte[] model2Rdf(@RequestBody List<ApigeaData> data, @RequestParam("model") String model) throws Exception {
-
-        String jsonString = new ObjectMapper().writeValueAsString(data);
-
-        data.forEach(ApigeaData::generate);
-
-        RdfizationRequest request = repository.findByRequest(jsonString).orElse(new RdfizationRequest());
-
-        if (request.getId() != null) {
-            InputStream in = new FileInputStream(request.getRdfFile());
-            return IOUtils.toByteArray(in);
-        }
-
-        request.setTimestamp(LocalDateTime.now());
-        request.setRequest(jsonString);
-        request.setStartingId(null);
-        request.setEndingId(null);
-        request.setRdfFile(fileGenerationService.generateApigeaRdf(data));
-
-        try {
-            service.upload(request.getRdfFile());
-            request.setSentToStore(Boolean.TRUE);
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
-        }
-
-        repository.save(request);
-
-        InputStream in = new FileInputStream(request.getRdfFile());
-        return IOUtils.toByteArray(in);
-
-    }
-
 }
