@@ -4,6 +4,7 @@ import com.agroknow.rdfization.model.base.Dataset;
 import com.agroknow.rdfization.model.base.ExtractionMethod;
 import com.agroknow.rdfization.model.base.GrapeVariety;
 import com.agroknow.rdfization.model.base.MicrobialCount;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.cyberborean.rdfbeans.annotations.RDF;
@@ -45,6 +46,7 @@ public class ApigeaData {
     @JsonProperty(value = "Sample")
     private String id;
 
+    @JsonIgnore
     private String dataset = "cosmetics";
 
     @JsonProperty(value = "Extraction Method")
@@ -53,6 +55,7 @@ public class ApigeaData {
     @JsonProperty(value = "Variety")
     private String grapeVariety;
 
+    @JsonIgnore
     private GrapeVariety variety;
 
     @JsonProperty(value = "Sample collection day")
@@ -82,12 +85,16 @@ public class ApigeaData {
     @JsonProperty(value = "Total flavonoid content, TFC (μg/mL quercetin")
     private Double tfcQuercetin;
 
+    @JsonIgnore
     private Dataset bdgDataset;
 
+    @JsonIgnore
     private ExtractionMethod bdgExtractionMethod;
 
+    @JsonIgnore
     private MicrobialCount bdgTotalMicrobialCount;
 
+    @JsonIgnore
     private MicrobialCount bdgYeastsAndMoulds;
 
     public ApigeaData() {
