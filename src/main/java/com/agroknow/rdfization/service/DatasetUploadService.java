@@ -23,7 +23,7 @@ public class DatasetUploadService {
     @Autowired
     private DatasetImportService importService;
 
-    public void upload(String filePath) throws Exception {
+    public void upload(String filePath, boolean test) throws Exception {
 
         JSch jsch = new JSch();
         Session session = null;
@@ -43,6 +43,6 @@ public class DatasetUploadService {
         sftpChannel.exit();
         session.disconnect();
 
-        importService.importDataset(FilenameUtils.getName(filePath));
+        importService.importDataset(FilenameUtils.getName(filePath), test);
     }
 }

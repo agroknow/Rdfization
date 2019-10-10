@@ -9,6 +9,7 @@ import com.agroknow.rdfization.model.bdg.qudt.AbsoluteHumidity;
 import com.agroknow.rdfization.model.bdg.qudt.DegreeCelsius;
 import com.agroknow.rdfization.model.bdg.qudt.Percent;
 import com.agroknow.rdfization.model.bdg.qudt.Unit;
+import com.agroknow.rdfization.model.geoclidean.GeoclideanData;
 import com.agroknow.rdfization.model.request.bdg.BDGConversionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.cyberborean.rdfbeans.RDFBeanManager;
@@ -79,6 +80,30 @@ public class BDGRdfFileGenerationService {
     }
 
     public String generateApigeaRdf(List<ApigeaData> data) throws Exception {
+
+        org.eclipse.rdf4j.repository.Repository repo =
+                new org.eclipse.rdf4j.repository.sail.SailRepository(new org.eclipse.rdf4j.sail.memory.MemoryStore());
+        repo.initialize();
+        RepositoryConnection con = repo.getConnection();
+        RDFBeanManager manager = new RDFBeanManager(con);
+
+        String filePath = storageDir + String.format("%s_%s.%s", RandomStringUtils.randomAlphanumeric(8), System.currentTimeMillis(), "rdf");
+
+        data.forEach(d -> {
+            try {
+                manager.add(d);
+            } catch (RDFBeanException e) {
+                e.printStackTrace();
+            }
+        });
+        manager.getRepositoryConnection().export(
+                org.eclipse.rdf4j.rio.Rio.createWriter(RDFFormat.RDFXML, new FileOutputStream(filePath)));
+        con.close();
+        repo.shutDown();
+        return filePath;
+    }
+
+    public String generateGeoclideanRdf(List<GeoclideanData> data) throws Exception {
 
         org.eclipse.rdf4j.repository.Repository repo =
                 new org.eclipse.rdf4j.repository.sail.SailRepository(new org.eclipse.rdf4j.sail.memory.MemoryStore());

@@ -4,6 +4,10 @@ package com.agroknow.rdfization.controller;
 import com.agroknow.rdfization.gardian.semantics.importer.JSONImporter;
 import com.agroknow.rdfization.model.RdfizationRequest;
 import com.agroknow.rdfization.model.apigea.ApigeaData;
+import com.agroknow.rdfization.model.base.Dataset;
+import com.agroknow.rdfization.model.geoclidean.BDGSatellite;
+import com.agroknow.rdfization.model.geoclidean.FieldIndicator;
+import com.agroknow.rdfization.model.geoclidean.GeoclideanData;
 import com.agroknow.rdfization.model.request.bdg.BDGConversionRequest;
 import com.agroknow.rdfization.repository.RdfizationRequestRepository;
 import com.agroknow.rdfization.service.BDGRdfFileGenerationService;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,7 +70,7 @@ public class ConversionController {
         request.setRdfFile(fullPath);
 
         try {
-            service.upload(fullPath);
+            service.upload(fullPath, false);
             request.setSentToStore(Boolean.TRUE);
         } catch (Exception ignored) {
 
@@ -98,7 +103,7 @@ public class ConversionController {
         request.setRdfFile(fileGenerationService.generateRdf(data));
 
         try {
-            service.upload(request.getRdfFile());
+            service.upload(request.getRdfFile(), false);
             request.setSentToStore(Boolean.TRUE);
         } catch (Exception ignored) {
 
@@ -134,13 +139,55 @@ public class ConversionController {
         request.setRdfFile(fileGenerationService.generateApigeaRdf(data));
 
         try {
-            service.upload(request.getRdfFile());
+            service.upload(request.getRdfFile(), false);
             request.setSentToStore(Boolean.TRUE);
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
 
         repository.save(request);
+
+        InputStream in = new FileInputStream(request.getRdfFile());
+        return IOUtils.toByteArray(in);
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/geoclidean/model2rdf", produces = {"application/rdf+xml"},
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    byte[] geoclidean2Rdf(@RequestBody List<FieldIndicator> data) throws Exception {
+
+        String jsonString = new ObjectMapper().writeValueAsString(data);
+        List<GeoclideanData> geoclideanData = new ArrayList<>();
+        data.forEach(
+                d -> {
+                    Dataset dataset = new Dataset("geocledian/" + d.getName() + "/" + d.getBelongsIn().getParcelId());
+                    BDGSatellite satellite = new BDGSatellite(d.getSource());
+                    geoclideanData.add(new GeoclideanData(dataset, d.getDate(), d.getMinValue(), d.getMaxValue(), d.getMeanValue(), d.getSumValue(), d.getStdValue(), satellite, String.valueOf(d.getBelongsIn().getParcelId()), d.getName()));
+                }
+        );
+
+        RdfizationRequest request = repository.findByRequest(jsonString).orElse(new RdfizationRequest());
+
+        if (request.getId() != null) {
+            InputStream in = new FileInputStream(request.getRdfFile());
+            return IOUtils.toByteArray(in);
+        }
+
+        request.setTimestamp(LocalDateTime.now());
+        request.setRequest(jsonString);
+        request.setStartingId(null);
+        request.setEndingId(null);
+        request.setRdfFile(fileGenerationService.generateGeoclideanRdf(geoclideanData));
+
+        try {
+            service.upload(request.getRdfFile(), true);
+            request.setSentToStore(Boolean.TRUE);
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
+
+//        repository.save(request);
 
         InputStream in = new FileInputStream(request.getRdfFile());
         return IOUtils.toByteArray(in);

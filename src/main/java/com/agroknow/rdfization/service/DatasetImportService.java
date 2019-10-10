@@ -21,7 +21,10 @@ public class DatasetImportService {
     @Value("${gdb.import.baseDir}")
     private String baseDir;
 
-    public void importDataset(String remotePath) throws Exception{
+    @Value("${gdb.import-test.endpoint}")
+    private String testImportEndpoint;
+
+    public void importDataset(String remotePath, boolean test) throws Exception{
         GraphDBImport dbImport = new GraphDBImport();
         dbImport.setName(baseDir + remotePath);
         dbImport.getFileNames().add(baseDir + remotePath);
@@ -33,7 +36,10 @@ public class DatasetImportService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         HttpEntity request = new HttpEntity(objectMapper.writeValueAsString(dbImport), headers);
-        restTemplate.exchange(importEndpoint, HttpMethod.POST, request, Object.class);
+
+        String endpoint = test ? testImportEndpoint : importEndpoint;
+
+        restTemplate.exchange(endpoint, HttpMethod.POST, request, Object.class);
     }
 
 }
